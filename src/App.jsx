@@ -32,7 +32,7 @@ const SakuraBackground = () => {
     }, []);
 
     return (
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
             {petals.map((p) => (
                 <motion.div
                     key={p.id}
@@ -83,56 +83,54 @@ const SectionTitle = ({ title, subtitle }) => (
 
 import { Play, Tv, Trophy, CheckCircle2 } from "lucide-react"; // Add these to your imports
 
-
-
-    // Helper component for the Player Rows to keep code clean
-    const PlayerRow = ({ player, isWinner, isLoser }) => (
-        <div
-            className={`relative flex justify-between items-center p-4 border-l-2 transition-all duration-700 
+// Helper component for the Player Rows to keep code clean
+const PlayerRow = ({ player, isWinner, isLoser }) => (
+    <div
+        className={`relative flex justify-between items-center p-4 border-l-2 transition-all duration-700 
       ${
           isWinner
               ? "bg-red-950/30 border-red-600 shadow-[inset_0_0_20px_rgba(220,38,38,0.1)]"
               : "bg-stone-950/50 border-stone-800"
       } 
       ${isLoser ? "opacity-30 grayscale" : "opacity-100"}`}
-        >
-            <div className="relative flex items-center gap-3">
-                {isWinner && (
+    >
+        <div className="relative flex items-center gap-3">
+            {isWinner && (
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="text-red-500"
+                >
+                    <Trophy size={16} />
+                </motion.div>
+            )}
+
+            <div className="relative">
+                <span
+                    className={`text-xl font-['Cinzel'] font-bold tracking-wide ${
+                        isWinner ? "text-white" : "text-stone-200"
+                    }`}
+                >
+                    {player.name}
+                </span>
+                {/* Shinobi Slash Animation for Loser */}
+                {isLoser && (
                     <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="text-red-500"
-                    >
-                        <Trophy size={16} />
-                    </motion.div>
+                        initial={{ width: 0 }}
+                        animate={{ width: "110%" }}
+                        transition={{ delay: 0.5, duration: 0.8 }}
+                        className="absolute top-1/2 -left-[5%] h-[2px] bg-red-700 z-20"
+                    />
                 )}
-
-                <div className="relative">
-                    <span
-                        className={`text-xl font-['Cinzel'] font-bold tracking-wide ${
-                            isWinner ? "text-white" : "text-stone-200"
-                        }`}
-                    >
-                        {player.name}
-                    </span>
-                    {/* Shinobi Slash Animation for Loser */}
-                    {isLoser && (
-                        <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: "110%" }}
-                            transition={{ delay: 0.5, duration: 0.8 }}
-                            className="absolute top-1/2 -left-[5%] h-[2px] bg-red-700 z-20"
-                        />
-                    )}
-                </div>
             </div>
-
-            <span className="text-xs font-['JetBrains_Mono'] text-stone-500">
-                {player.pb ? `PB: ${player.pb}` : "ADVANCING"}
-            </span>
         </div>
-    );
-    
+
+        <span className="text-xs font-['JetBrains_Mono'] text-stone-500">
+            {player.pb ? `PB: ${player.pb}` : "ADVANCING"}
+        </span>
+    </div>
+);
+
 const MatchCard = ({
     p1,
     p2,
@@ -146,7 +144,6 @@ const MatchCard = ({
     const isP1Winner = winner === p1.name;
     const isP2Winner = winner === p2.name;
     const isFinished = winner !== null;
-
 
     return (
         <motion.div
@@ -310,7 +307,7 @@ export default function App() {
                 </motion.div>
             </section>
 
-            <section className="py-24 max-w-4xl mx-auto px-4">
+            <section className="py-4 max-w-4xl mx-auto px-4">
                 <div className="flex flex-wrap justify-center gap-12 opacity-50 hover:opacity-100 transition-opacity duration-500">
                     <a
                         rel="noopener noreferrer"
@@ -361,58 +358,123 @@ export default function App() {
                     ))}
                 </div>
             </section>
+            {/* 3. TOURNAMENT SPECIFICATIONS */}
+            <section className="py-16 md:py-32 bg-[#080808] border-y border-stone-900/80 relative overflow-hidden">
+                {/* Subtle geometric background pattern */}
+                <div
+                    className="absolute inset-0 opacity-[0.02] pointer-events-none"
+                    style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                    }}
+                />
 
-            {/* 3. INFO SECTION */}
-            <section className="py-24 bg-stone-900/10 border-y border-stone-900/50">
-                <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-16">
-                    <div className="border-l border-red-900/50 pl-10 py-2">
-                        <div className="flex items-center gap-4 mb-8">
-                            <Scroll className="text-red-700" size={28} />
-                            <h2 className="text-3xl font-['Cinzel'] font-bold text-stone-100 tracking-widest">
-                                Codex of War
-                            </h2>
-                        </div>
-                        <ul className="space-y-6 text-stone-400 italic leading-relaxed">
-                            <li>
-                                • Shura Glitchless rules strictly enforced via
-                                community standards.
-                            </li>
-                            <li>
-                                • No resets allowed once the starting bell
-                                rings.
-                            </li>
-                            <li>
-                                • PC and Console platforms are both permitted
-                                for entry.
-                            </li>
-                            <li>
-                                • All runners must provide live proof of honor
-                                via stream.
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="border-l border-stone-800 pl-10 py-2">
-                        <div className="flex items-center gap-4 mb-8">
-                            <Users className="text-stone-600" size={28} />
-                            <h2 className="text-3xl font-['Cinzel'] font-bold text-stone-100 tracking-widest">
-                                The Assembly
-                            </h2>
-                        </div>
-                        <div className="grid grid-cols-2 gap-6 text-sm">
-                            <div className="p-6 bg-stone-950/40 border border-stone-900">
-                                <p className="text-red-700 font-['Cinzel'] font-bold mb-2 uppercase tracking-widest">
-                                    Host
-                                </p>
-                                <p className="text-stone-200 text-lg">Seljuz</p>
+                <div className="max-w-6xl mx-auto px-6 relative z-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                        {/* LEFT COLUMN: RULES & REGULATIONS */}
+                        <div className="lg:col-span-7">
+                            <div className="flex items-center gap-4 mb-10">
+                                <div className="h-12 w-[2px] bg-red-700" />
+                                <div>
+                                    <h2 className="text-3xl md:text-4xl font-['Cinzel'] font-bold text-white tracking-tight">
+                                        Technical Regulations
+                                    </h2>
+                                    <p className="text-red-700 font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.3em] mt-1">
+                                        Official Competition Standards
+                                    </p>
+                                </div>
                             </div>
-                            <div className="p-6 bg-stone-950/40 border border-stone-900">
-                                <p className="text-red-700 font-['Cinzel'] font-bold mb-2 uppercase tracking-widest">
-                                    Deadline
-                                </p>
-                                <p className="text-stone-200 text-lg">
-                                    Jan 16, 10 AM
-                                </p>
+
+                            <div className="space-y-8">
+                                {[
+                                    {
+                                        label: "Category",
+                                        desc: "Shura Glitchless. Rulesets are governed by current community speedrun.com standards.",
+                                    },
+                                    {
+                                        label: "Execution",
+                                        desc: "Players are requested to use the layout provided on discord for the event. No quits or resets permitted.",
+                                    },
+                                    {
+                                        label: "Hardware",
+                                        desc: "Multi-platform eligibility (PC/Console). Third-party software or macro assistance is strictly prohibited.",
+                                    },
+                                    {
+                                        label: "Verification",
+                                        desc: "All participants must live broadcast their official matches.",
+                                    },
+                                ].map((item, idx) => (
+                                    <div key={idx} className="group flex gap-6">
+                                        <span className="text-stone-700 font-['Cinzel'] text-xl font-bold group-hover:text-red-900 transition-colors">
+                                            0{idx + 1}
+                                        </span>
+                                        <div>
+                                            <h4 className="text-stone-100 font-bold uppercase tracking-widest text-sm mb-2 font-['Cinzel']">
+                                                {item.label}
+                                            </h4>
+                                            <p className="text-stone-500 leading-relaxed text-sm md:text-base font-sans">
+                                                {item.desc}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* RIGHT COLUMN: LOGISTICS CARD */}
+                        <div className="lg:col-span-5 w-full">
+                            <div className="bg-stone-900/30 border border-stone-800 p-8 md:p-10 backdrop-blur-sm relative">
+                                <div className="absolute top-0 right-0 w-24 h-24 bg-red-900/5 blur-3xl rounded-full" />
+
+                                <h3 className="text-xl font-['Cinzel'] font-bold text-white mb-8 border-b border-stone-800 pb-4 tracking-widest uppercase">
+                                    Event Brief
+                                </h3>
+
+                                <div className="space-y-6">
+                                    <div className="flex justify-between items-end border-b border-stone-800/50 pb-4">
+                                        <div>
+                                            <p className="text-[10px] text-red-700 font-['JetBrains_Mono'] uppercase tracking-widest mb-1">
+                                                Tournament Director
+                                            </p>
+                                            <p className="text-xl text-stone-200 font-['Cinzel']">
+                                                Seljuz
+                                            </p>
+                                        </div>
+                                        <Users
+                                            size={20}
+                                            className="text-stone-700 mb-1"
+                                        />
+                                    </div>
+
+                                    <div className="flex justify-between items-end border-b border-stone-800/50 pb-4">
+                                        <div>
+                                            <p className="text-[10px] text-red-700 font-['JetBrains_Mono'] uppercase tracking-widest mb-1">
+                                                Registration Deadline
+                                            </p>
+                                            <p className="text-xl text-stone-200 font-['Cinzel']">
+                                                January 16, 2026
+                                            </p>
+                                        </div>
+                                        <Scroll
+                                            size={20}
+                                            className="text-stone-700 mb-1"
+                                        />
+                                    </div>
+
+                                    {/* <div className="flex justify-between items-end border-b border-stone-800/50 pb-4">
+                            <div>
+                                <p className="text-[10px] text-red-700 font-['JetBrains_Mono'] uppercase tracking-widest mb-1">Broadcast Window</p>
+                                <p className="text-xl text-stone-200 font-['Cinzel']">10:00 AM EST</p>
+                            </div>
+                            <Tv size={20} className="text-stone-700 mb-1" />
+                        </div> */}
+                                </div>
+
+                                <div className="mt-10 p-4 bg-red-950/10 border border-red-900/20">
+                                    <p className="text-[11px] text-stone-400 leading-relaxed italic text-center">
+                                        Participants are encouraged to have fun
+                                        ;)
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
