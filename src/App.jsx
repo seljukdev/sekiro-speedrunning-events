@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
     Sword,
@@ -9,27 +9,72 @@ import {
     MessageSquare,
     Skull,
     Flame,
+    Play,
+    Tv,
+    Trophy,
 } from "lucide-react";
-import "./App.css";
 
-// --- ANIMATION VARIANTS ---
-const fadeIn = {
+// --- STATIC CONSTANTS (Outside component to prevent re-allocation) ---
+const FADE_IN_VARIANTS = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
-// --- COMPONENTS ---
-const SakuraBackground = () => {
-    const [petals, setPetals] = useState([]);
-    useEffect(() => {
-        const p = Array.from({ length: 15 }).map((_, i) => ({
+const CONTESTANTS = [
+    { name: "WormdogBS", pb: "28:37" },
+    { name: "mommyemma77", pb: "28:56" },
+    { name: "ymir_happy", pb: "29:10" },
+    { name: "sara_toga", pb: "29:50" },
+    { name: "gunjou1213", pb: "30:30" },
+    { name: "zerowww7", pb: "30:46" },
+    { name: "GamingMusume", pb: "31:11" },
+    { name: "gilachi", pb: "36:44" },
+    { name: "leech1208", pb: "39:50" },
+];
+
+const FIRST_MATCHES = [
+    { p1: CONTESTANTS[7], p2: CONTESTANTS[8], type: "Play-In Match" },
+    { p1: CONTESTANTS[0], p2: CONTESTANTS[1], type: "Upper Bracket" },
+    { p1: CONTESTANTS[2], p2: CONTESTANTS[3], type: "Upper Bracket" },
+    { p1: CONTESTANTS[4], p2: CONTESTANTS[5], type: "Upper Bracket" },
+    {
+        p1: CONTESTANTS[6],
+        p2: { name: "Play-In Winner" },
+        type: "Upper Bracket",
+    },
+];
+
+const REGULATIONS = [
+    {
+        label: "Category",
+        desc: "Shura Glitchless. Rulesets are governed by current community speedrun.com standards.",
+    },
+    {
+        label: "Execution",
+        desc: "Players are requested to use the layout provided on discord for the event. No quits or resets permitted.",
+    },
+    {
+        label: "Hardware",
+        desc: "Multi-platform eligibility (PC/Console). Third-party software or macro assistance is strictly prohibited.",
+    },
+    {
+        label: "Verification",
+        desc: "All participants must live broadcast their official matches.",
+    },
+];
+
+// --- MEMOIZED COMPONENTS ---
+
+const SakuraBackground = memo(() => {
+    // Initialize state immediately to avoid useEffect double-render
+    const [petals] = useState(() =>
+        Array.from({ length: 15 }).map((_, i) => ({
             id: i,
             left: Math.random() * 100 + "%",
             delay: Math.random() * 10,
             duration: 15 + Math.random() * 20,
-        }));
-        setPetals(p);
-    }, []);
+        }))
+    );
 
     return (
         <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
@@ -38,7 +83,7 @@ const SakuraBackground = () => {
                     key={p.id}
                     initial={{ y: -20, opacity: 0 }}
                     animate={{
-                        y: "110vh",
+                        y: ["-5vh", "110vh"],
                         opacity: [0, 0.5, 0],
                         x: [0, 30, -30, 0],
                     }}
@@ -48,15 +93,15 @@ const SakuraBackground = () => {
                         delay: p.delay,
                         ease: "linear",
                     }}
-                    className="absolute w-2 h-2 bg-red-500/20 rounded-full blur-[1px]"
+                    className="absolute w-2 h-2 bg-red-500/50 rounded-full blur-[1px]"
                     style={{ left: p.left }}
                 />
             ))}
         </div>
     );
-};
+});
 
-const SectionTitle = ({ title, subtitle }) => (
+const SectionTitle = memo(({ title, subtitle }) => (
     <motion.div
         initial="hidden"
         whileInView="visible"
@@ -79,12 +124,9 @@ const SectionTitle = ({ title, subtitle }) => (
             </p>
         )}
     </motion.div>
-);
+));
 
-import { Play, Tv, Trophy, CheckCircle2 } from "lucide-react"; // Add these to your imports
-
-// Helper component for the Player Rows to keep code clean
-const PlayerRow = ({ player, isWinner, isLoser }) => (
+const PlayerRow = memo(({ player, isWinner, isLoser }) => (
     <div
         className={`relative flex justify-between items-center p-4 border-l-2 transition-all duration-700 
       ${
@@ -104,7 +146,6 @@ const PlayerRow = ({ player, isWinner, isLoser }) => (
                     <Trophy size={16} />
                 </motion.div>
             )}
-
             <div className="relative">
                 <span
                     className={`text-xl font-['Cinzel'] font-bold tracking-wide ${
@@ -113,7 +154,6 @@ const PlayerRow = ({ player, isWinner, isLoser }) => (
                 >
                     {player.name}
                 </span>
-                {/* Shinobi Slash Animation for Loser */}
                 {isLoser && (
                     <motion.div
                         initial={{ width: 0 }}
@@ -124,132 +164,98 @@ const PlayerRow = ({ player, isWinner, isLoser }) => (
                 )}
             </div>
         </div>
-
         <span className="text-xs font-['JetBrains_Mono'] text-stone-500">
             {player.pb ? `PB: ${player.pb}` : "ADVANCING"}
         </span>
     </div>
-);
+));
 
-const MatchCard = ({
-    p1,
-    p2,
-    type,
-    winner = null, // Name of the winner: e.g., "WormdogBS"
-    matchLink = null, // URL for the stream/VOD
-    isLive = false, // If true, shows a pulsating "LIVE" badge
-    statusText = null, // Custom text like "Finals" or "Rescheduled"
-    index,
-}) => {
-    const isP1Winner = winner === p1.name;
-    const isP2Winner = winner === p2.name;
-    const isFinished = winner !== null;
+const MatchCard = memo(
+    ({
+        p1,
+        p2,
+        type,
+        winner = null,
+        matchLink = null,
+        isLive = false,
+        statusText = null,
+    }) => {
+        const isP1Winner = winner === p1.name;
+        const isP2Winner = winner === p2.name;
+        const isFinished = winner !== null;
 
-    return (
-        <motion.div
-            variants={fadeIn}
-            whileHover={{ y: -5 }}
-            className={`relative group bg-stone-900/40 backdrop-blur-md border border-stone-800/50 p-6 shadow-2xl overflow-hidden transition-all duration-500
-        ${isLive ? "border-red-600/50 ring-1 ring-red-600/20" : ""}`}
-        >
-            {/* Background Decorative Skull */}
-            <div className="absolute top-0 right-0 p-2 opacity-[0.03] group-hover:opacity-10 transition-opacity">
-                <Skull size={80} />
-            </div>
+        return (
+            <motion.div
+                variants={FADE_IN_VARIANTS}
+                whileHover={{ y: -5 }}
+                className={`relative group bg-stone-900/40 backdrop-blur-md border border-stone-800/50 p-6 shadow-2xl overflow-hidden transition-all duration-500 ${
+                    isLive ? "border-red-600/50 ring-1 ring-red-600/20" : ""
+                }`}
+            >
+                <div className="absolute top-0 right-0 p-2 opacity-[0.03] group-hover:opacity-10 transition-opacity">
+                    <Skull size={80} />
+                </div>
 
-            {/* Header Info */}
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-3">
-                    <span className="text-[11px] font-['Cinzel'] font-bold text-red-700 uppercase tracking-[0.4em]">
-                        {type}
-                    </span>
-                    {isLive && (
-                        <span className="flex items-center gap-1.5 px-2 py-0.5 bg-red-600 text-[9px] font-black text-white tracking-widest uppercase animate-pulse rounded-sm">
-                            <span className="w-1.5 h-1.5 bg-white rounded-full" />{" "}
-                            Live
+                <div className="flex justify-between items-center mb-6">
+                    <div className="flex items-center gap-3">
+                        <span className="text-[11px] font-['Cinzel'] font-bold text-red-700 uppercase tracking-[0.4em]">
+                            {type}
+                        </span>
+                        {isLive && (
+                            <span className="flex items-center gap-1.5 px-2 py-0.5 bg-red-600 text-[9px] font-black text-white tracking-widest uppercase animate-pulse rounded-sm">
+                                <span className="w-1.5 h-1.5 bg-white rounded-full" />{" "}
+                                Live
+                            </span>
+                        )}
+                    </div>
+                    {statusText && (
+                        <span className="text-[10px] text-stone-600 italic font-['Cinzel']">
+                            {statusText}
                         </span>
                     )}
                 </div>
-                {statusText && (
-                    <span className="text-[10px] text-stone-600 italic font-['Cinzel']">
-                        {statusText}
-                    </span>
-                )}
-            </div>
 
-            {/* Players Section */}
-            <div className="flex flex-col gap-3 relative">
-                <PlayerRow
-                    player={p1}
-                    isWinner={isP1Winner}
-                    isLoser={isFinished && !isP1Winner}
-                />
-
-                <div className="flex justify-center -my-3 relative z-10">
-                    <div className="bg-stone-900 border border-stone-800 text-[10px] px-3 py-1 font-['Cinzel'] font-black italic transform -skew-x-12 shadow-lg text-stone-500 group-hover:text-red-600 group-hover:border-red-900 transition-colors">
-                        VS
+                <div className="flex flex-col gap-3 relative">
+                    <PlayerRow
+                        player={p1}
+                        isWinner={isP1Winner}
+                        isLoser={isFinished && !isP1Winner}
+                    />
+                    <div className="flex justify-center -my-3 relative z-10">
+                        <div className="bg-stone-900 border border-stone-800 text-[10px] px-3 py-1 font-['Cinzel'] font-black italic transform -skew-x-12 shadow-lg text-stone-500 group-hover:text-red-600 group-hover:border-red-900 transition-colors">
+                            VS
+                        </div>
                     </div>
+                    <PlayerRow
+                        player={p2}
+                        isWinner={isP2Winner}
+                        isLoser={isFinished && !isP2Winner}
+                    />
                 </div>
 
-                <PlayerRow
-                    player={p2}
-                    isWinner={isP2Winner}
-                    isLoser={isFinished && !isP2Winner}
-                />
-            </div>
-
-            {/* Call to Action Button (Optional) */}
-            {(matchLink || isLive) && (
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-6 pt-4 border-t border-stone-800/50 flex justify-center"
-                >
-                    <a
-                        href={matchLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-2 text-[10px] font-['Cinzel'] font-bold tracking-[0.3em] uppercase py-2 px-6 bg-white/5 hover:bg-red-700 hover:text-white transition-all duration-300 border border-white/10"
-                    >
-                        {isLive ? <Tv size={14} /> : <Play size={14} />}
-                        {isLive ? "Watch Stream" : "View Replay"}
-                    </a>
-                </motion.div>
-            )}
-        </motion.div>
-    );
-};
+                {(matchLink || isLive) && (
+                    <div className="mt-6 pt-4 border-t border-stone-800/50 flex justify-center">
+                        <a
+                            href={matchLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center gap-2 text-[10px] font-['Cinzel'] font-bold tracking-[0.3em] uppercase py-2 px-6 bg-white/5 hover:bg-red-700 hover:text-white transition-all duration-300 border border-white/10"
+                        >
+                            {isLive ? <Tv size={14} /> : <Play size={14} />}
+                            {isLive ? "Watch Stream" : "View Replay"}
+                        </a>
+                    </div>
+                )}
+            </motion.div>
+        );
+    }
+);
 
 export default function App() {
-    const contestants = [
-        { name: "WormdogBS", pb: "28:37" },
-        { name: "mommyemma77", pb: "28:56" },
-        { name: "ymir_happy", pb: "29:10" },
-        { name: "sara_toga", pb: "29:50" },
-        { name: "gunjou1213", pb: "30:30" },
-        { name: "zerowww7", pb: "30:46" },
-        { name: "GamingMusume", pb: "31:11" },
-        { name: "gilachi", pb: "36:44" },
-        { name: "leech1208", pb: "39:50" },
-    ];
-
-    const firstMatches = [
-        { p1: contestants[7], p2: contestants[8], type: "Play-In Match" },
-        { p1: contestants[0], p2: contestants[1], type: "Upper Bracket" },
-        { p1: contestants[2], p2: contestants[3], type: "Upper Bracket" },
-        { p1: contestants[4], p2: contestants[5], type: "Upper Bracket" },
-        {
-            p1: contestants[6],
-            p2: { name: "Play-In Winner" },
-            type: "Upper Bracket",
-        },
-    ];
-
     return (
         <div className="min-h-screen bg-[#050505] text-stone-300 font-['EB_Garamond'] text-lg selection:bg-red-900">
             <SakuraBackground />
 
-            {/* 1. COMPACT HERO SECTION */}
             <section className="relative h-[65vh] flex items-center justify-center overflow-hidden border-b border-red-950/30">
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#050505]/60 to-[#050505] z-10" />
@@ -276,10 +282,9 @@ export default function App() {
                             className="text-red-700 drop-shadow-[0_0_20px_rgba(220,38,38,0.8)]"
                         />
                     </motion.div>
-
                     <h1 className="text-6xl md:text-9xl font-['Cinzel_Decorative'] font-black tracking-[-0.05em] text-white drop-shadow-[0_10px_20px_rgba(0,0,0,1)]">
                         SEKIRO{" "}
-                        <span className="text-red-700 underline decoration-red-900/40 underline-offset-8">
+                        <span className="text-red-700   decoration-red-900/40 underline-offset-8">
                             SHURA
                         </span>
                     </h1>
@@ -287,12 +292,11 @@ export default function App() {
                         Glitchless Race{" "}
                         <span className="text-stone-700 mx-2">|</span> Jan 2026
                     </p>
-
                     <div className="mt-10 flex flex-col sm:flex-row gap-6 justify-center">
                         <a
-                            rel="noopener noreferrer"
-                            target="_blank"
                             href="https://twitch.tv/seljuz"
+                            target="_blank"
+                            rel="noreferrer"
                             className="bg-red-800 hover:bg-red-700 text-white px-10 py-4 font-['Cinzel'] font-bold text-sm tracking-[0.3em] transition-all uppercase border-b-4 border-red-950 shadow-xl"
                         >
                             Watch LIVE Races
@@ -345,32 +349,24 @@ export default function App() {
                 </div>
             </section>
 
-            {/* 2. MATCHUPS SECTION */}
             <section id="brackets" className="py-24 px-4 max-w-7xl mx-auto">
                 <SectionTitle
                     title="The Conflict"
                     subtitle="Opening Matchups"
                 />
-
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {firstMatches.map((match, i) => (
-                        <MatchCard key={i} index={i} {...match} />
+                    {FIRST_MATCHES.map((match, i) => (
+                        <MatchCard
+                            key={`${match.p1.name}-${match.p2.name}`}
+                            {...match}
+                        />
                     ))}
                 </div>
             </section>
-            {/* 3. TOURNAMENT SPECIFICATIONS */}
-            <section className="py-16 md:py-32 bg-[#080808] border-y border-stone-900/80 relative overflow-hidden">
-                {/* Subtle geometric background pattern */}
-                <div
-                    className="absolute inset-0 opacity-[0.02] pointer-events-none"
-                    style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                    }}
-                />
 
+            <section className="py-16 md:py-32 bg-[#080808] border-y border-stone-900/80 relative overflow-hidden">
                 <div className="max-w-6xl mx-auto px-6 relative z-10">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-                        {/* LEFT COLUMN: RULES & REGULATIONS */}
                         <div className="lg:col-span-7">
                             <div className="flex items-center gap-4 mb-10">
                                 <div className="h-12 w-[2px] bg-red-700" />
@@ -383,26 +379,8 @@ export default function App() {
                                     </p>
                                 </div>
                             </div>
-
                             <div className="space-y-8">
-                                {[
-                                    {
-                                        label: "Category",
-                                        desc: "Shura Glitchless. Rulesets are governed by current community speedrun.com standards.",
-                                    },
-                                    {
-                                        label: "Execution",
-                                        desc: "Players are requested to use the layout provided on discord for the event. No quits or resets permitted.",
-                                    },
-                                    {
-                                        label: "Hardware",
-                                        desc: "Multi-platform eligibility (PC/Console). Third-party software or macro assistance is strictly prohibited.",
-                                    },
-                                    {
-                                        label: "Verification",
-                                        desc: "All participants must live broadcast their official matches.",
-                                    },
-                                ].map((item, idx) => (
+                                {REGULATIONS.map((item, idx) => (
                                     <div key={idx} className="group flex gap-6">
                                         <span className="text-stone-700 font-['Cinzel'] text-xl font-bold group-hover:text-red-900 transition-colors">
                                             0{idx + 1}
@@ -419,56 +397,23 @@ export default function App() {
                                 ))}
                             </div>
                         </div>
-
-                        {/* RIGHT COLUMN: LOGISTICS CARD */}
                         <div className="lg:col-span-5 w-full">
                             <div className="bg-stone-900/30 border border-stone-800 p-8 md:p-10 backdrop-blur-sm relative">
-                                <div className="absolute top-0 right-0 w-24 h-24 bg-red-900/5 blur-3xl rounded-full" />
-
                                 <h3 className="text-xl font-['Cinzel'] font-bold text-white mb-8 border-b border-stone-800 pb-4 tracking-widest uppercase">
                                     Event Brief
                                 </h3>
-
                                 <div className="space-y-6">
-                                    <div className="flex justify-between items-end border-b border-stone-800/50 pb-4">
-                                        <div>
-                                            <p className="text-[10px] text-red-700 font-['JetBrains_Mono'] uppercase tracking-widest mb-1">
-                                                Tournament Director
-                                            </p>
-                                            <p className="text-xl text-stone-200 font-['Cinzel']">
-                                                Seljuz
-                                            </p>
-                                        </div>
-                                        <Users
-                                            size={20}
-                                            className="text-stone-700 mb-1"
-                                        />
-                                    </div>
-
-                                    <div className="flex justify-between items-end border-b border-stone-800/50 pb-4">
-                                        <div>
-                                            <p className="text-[10px] text-red-700 font-['JetBrains_Mono'] uppercase tracking-widest mb-1">
-                                                Registration Deadline
-                                            </p>
-                                            <p className="text-xl text-stone-200 font-['Cinzel']">
-                                                January 16, 2026
-                                            </p>
-                                        </div>
-                                        <Scroll
-                                            size={20}
-                                            className="text-stone-700 mb-1"
-                                        />
-                                    </div>
-
-                                    {/* <div className="flex justify-between items-end border-b border-stone-800/50 pb-4">
-                            <div>
-                                <p className="text-[10px] text-red-700 font-['JetBrains_Mono'] uppercase tracking-widest mb-1">Broadcast Window</p>
-                                <p className="text-xl text-stone-200 font-['Cinzel']">10:00 AM EST</p>
-                            </div>
-                            <Tv size={20} className="text-stone-700 mb-1" />
-                        </div> */}
+                                    <BriefItem
+                                        label="Tournament Director"
+                                        value="Seljuz"
+                                        Icon={Users}
+                                    />
+                                    <BriefItem
+                                        label="Registration Deadline"
+                                        value="January 16, 2026"
+                                        Icon={Scroll}
+                                    />
                                 </div>
-
                                 <div className="mt-10 p-4 bg-red-950/10 border border-red-900/20">
                                     <p className="text-[11px] text-stone-400 leading-relaxed italic text-center">
                                         Participants are encouraged to have fun
@@ -489,3 +434,30 @@ export default function App() {
         </div>
     );
 }
+
+// Small helper components to keep the main return clean
+const SocialLink = ({ href, Icon, label }) => (
+    <a
+        href={href}
+        rel="noopener noreferrer"
+        target="_blank"
+        className="flex items-center gap-3 hover:text-red-600 transition-colors"
+    >
+        <Icon size={22} />{" "}
+        <span className="font-['Cinzel'] font-bold tracking-[0.3em] text-lg uppercase">
+            {label}
+        </span>
+    </a>
+);
+
+const BriefItem = ({ label, value, Icon }) => (
+    <div className="flex justify-between items-end border-b border-stone-800/50 pb-4">
+        <div>
+            <p className="text-[10px] text-red-700 font-['JetBrains_Mono'] uppercase tracking-widest mb-1">
+                {label}
+            </p>
+            <p className="text-xl text-stone-200 font-['Cinzel']">{value}</p>
+        </div>
+        <Icon size={20} className="text-stone-700 mb-1" />
+    </div>
+);
