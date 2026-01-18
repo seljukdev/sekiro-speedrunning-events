@@ -13,49 +13,72 @@ import {
   Trophy,
   Crown,
 } from "lucide-react";
+import BracketEditor from "./BracketEditor";
 
 // --- ANIMATION VARIANTS ---
 const FADE_IN_VARIANTS = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-// --- DATA: SORTED BY PB TIME (Fastest to Slowest) ---
-const CONTESTANTS = [
+};const CONTESTANTS = [
   { name: "WormdogBS", pb: "28:37", seed: 1 },
-  { name: "ramonchi_5", pb: "28:55", seed: 2 },
-  { name: "mommyemma77", pb: "28:56", seed: 3 },
-  { name: "Holm_GG", pb: "28:57", seed: 4 },
-  { name: "ymir_happy", pb: "29:10", seed: 5 },
-  { name: "Th38atman", pb: "29:25", seed: 6 },
-  { name: "sara_toga", pb: "29:50", seed: 7 },
-  { name: "Lecentz", pb: "29:54", seed: 8 },
-  { name: "gunjou1213", pb: "30:30", seed: 9 },
-  { name: "zerowww7", pb: "30:46", seed: 10 },
-  { name: "pennek", pb: "31:05", seed: 11 },
-  { name: "GamingMusume", pb: "31:11", seed: 12 },
-  { name: "sugarod1", pb: "32:49", seed: 13 },
-  { name: "gilachi", pb: "36:44", seed: 14 },
-  { name: "leech1208", pb: "39:50", seed: 15 },
+  { name: "albertitotf", pb: "28:50", seed: 2 },
+  { name: "ramonchi_5", pb: "28:55", seed: 3 },
+  { name: "mommyemma77", pb: "28:56", seed: 4 },
+  { name: "Holm_GG", pb: "28:57", seed: 5 },
+  { name: "ymir_happy", pb: "29:10", seed: 6 },
+  { name: "Th38atman", pb: "29:25", seed: 7 },
+  { name: "sara_toga", pb: "29:50", seed: 8 },
+  { name: "Lecentz", pb: "29:54", seed: 9 },
+  { name: "gunjou1213", pb: "30:30", seed: 10 },
+  { name: "zerowww7", pb: "30:46", seed: 11 },
+  { name: "ZenoZilch", pb: "30:51", seed: 12 },
+  { name: "krrag2", pb: "30:59", seed: 13 },
+  { name: "pennek", pb: "31:05", seed: 14 },
+  { name: "GamingMusume", pb: "31:11", seed: 15 },
+  { name: "Limmitd", pb: "31:40", seed: 16 },
+  { name: "sugarod1", pb: "32:49", seed: 17 },
+  { name: "banjobunny", pb: "33:36", seed: 18 },
+  { name: "gilachi", pb: "36:44", seed: 19 },
+  { name: "leech1208", pb: "39:50", seed: 20 },
+  { name: "papa_pp69", pb: "59:11", seed: 21 },
 ];
 
-// --- PAIRINGS: 1 BYE + 7 MATCHES ---
 const FIRST_MATCHES = [
-  // THE TITAN (Seed 1 gets auto-entry to Round 2)
-  { 
-    p1: CONTESTANTS[0], 
-    p2: { name: "BYE" }, 
-    type: "Seed 1 - Qualified R2" 
-  },
-
-  // THE GAUNTLET (Seeds 2-15 fight)
-  { p1: CONTESTANTS[1], p2: CONTESTANTS[2], type: "Upper Bracket - Round 1" }, // 28:55 vs 28:56 (CLOSE MATCH!)
-  { p1: CONTESTANTS[3], p2: CONTESTANTS[4], type: "Upper Bracket - Round 1" }, // 28:57 vs 29:10
-  { p1: CONTESTANTS[5], p2: CONTESTANTS[6], type: "Upper Bracket - Round 1" }, // 29:25 vs 29:50
-  { p1: CONTESTANTS[7], p2: CONTESTANTS[8], type: "Upper Bracket - Round 1" }, // 29:54 vs 30:30
-  { p1: CONTESTANTS[9], p2: CONTESTANTS[10], type: "Upper Bracket - Round 1" }, // 30:46 vs 31:05
-  { p1: CONTESTANTS[11], p2: CONTESTANTS[12], type: "Upper Bracket - Round 1" }, // 31:11 vs 32:49
-  { p1: CONTESTANTS[13], p2: CONTESTANTS[14], type: "Upper Bracket - Round 1" }, // 36:44 vs 39:50
+  // Round 1 Pairings (Actual Results Included)
+  { p1: CONTESTANTS[11], p2: CONTESTANTS[12], type: "Elimination R1", winner: null }, // Zeno vs Krrag (Pending)
+  { p1: CONTESTANTS[13], p2: CONTESTANTS[14], type: "Elimination R1", winner: "GamingMusume" }, // Pennek vs Musume
+  { p1: CONTESTANTS[15], p2: CONTESTANTS[16], type: "Elimination R1", winner: "Limmitd" }, // Limmitd vs Sugarod
+  { p1: CONTESTANTS[17], p2: CONTESTANTS[18], type: "Elimination R1", winner: "banjobunny" }, // Banjo vs Gilachi
+  { p1: CONTESTANTS[19], p2: CONTESTANTS[20], type: "Elimination R1", winner: "papa_pp69" }, // Leech vs Papa
+  
+  // 11 BYES for the Top Seeds (Automatically Advance)
+  // { p1: CONTESTANTS[0], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[0].name },
+  // { p1: CONTESTANTS[1], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[1].name },
+  // { p1: CONTESTANTS[2], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[2].name },
+  // { p1: CONTESTANTS[3], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[3].name },
+  // { p1: CONTESTANTS[4], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[4].name },
+  // { p1: CONTESTANTS[5], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[5].name },
+  // { p1: CONTESTANTS[6], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[6].name },
+  // { p1: CONTESTANTS[7], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[7].name },
+  // { p1: CONTESTANTS[8], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[8].name },
+  // { p1: CONTESTANTS[9], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[9].name },
+  // { p1: CONTESTANTS[10], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[10].name },
 ];
+
+const SECOND_MATCHES = [
+  // Top 5 Seeds vs Round 1 Survivors
+  { p1: CONTESTANTS[0],  p2: CONTESTANTS[20], type: "Winners R2", status: "WormdogBS vs papa_pp69" },
+  { p1: CONTESTANTS[1],  p2: CONTESTANTS[17], type: "Winners R2", status: "albertitotf vs banjobunny" },
+  { p1: CONTESTANTS[2],  p2: CONTESTANTS[15], type: "Winners R2", status: "ramonchi_5 vs Limmitd" },
+  { p1: CONTESTANTS[3],  p2: CONTESTANTS[14], type: "Winners R2", status: "mommyemma77 vs GamingMusume" },
+  { p1: CONTESTANTS[4],  p2: "Winner of Zeno/Krrag", type: "Winners R2", status: "Holm_GG vs TBD" },
+
+  // Mid-Seed Face-offs (Both had Byes)
+  { p1: CONTESTANTS[5],  p2: CONTESTANTS[10], type: "Winners R2", status: "ymir_happy vs zerowww7" },
+  { p1: CONTESTANTS[6],  p2: CONTESTANTS[9],  type: "Winners R2", status: "Th38atman vs gunjou1213" },
+  { p1: CONTESTANTS[7],  p2: CONTESTANTS[8],  type: "Winners R2", status: "sara_toga vs Lecentz" },
+];
+
 
 const REGULATIONS = [
   {
@@ -403,18 +426,64 @@ export default function App() {
         </div>
       </section>
 
-      {/* BRACKETS */}
-      <section id="brackets" className="py-24 px-4 max-w-7xl mx-auto">
-        <SectionTitle title="The Conflict" subtitle="Round 1 & Byes" />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {FIRST_MATCHES.map((match, i) => (
-            <MatchCard
-              key={`${match.p1.name}-${match.p2.name}`}
-              {...match}
-            />
-          ))}
-        </div>
-      </section>
+{/* BRACKETS SECTION */}
+<section id="brackets" className="py-24 px-4 max-w-7xl mx-auto space-y-20">
+  
+  {/* ROUND 1: THE PLAY-INS */}
+  <div>
+    <SectionTitle title="The Conflict"/>
+     {/* subtitle="Round 1: Play-ins & Initial Byes"  */}
+    
+  {/* THE NICE DIVIDER */}
+  <div className="relative flex py-12 items-center justify-center">
+    <div className="absolute inset-0 flex items-center" aria-hidden="true">
+      <div className="w-full border-t border-red-900/40"></div>
+    </div>
+    <div className="relative bg-[#0c0c0c] px-6 flex flex-col items-center">
+      <span className="text-red-600 font-black italic tracking-[0.3em] text-2xl uppercase">
+        Round 1: Play-ins
+      </span>
+      <div className="h-1 w-24 bg-red-600 mt-2 shadow-[0_0_10px_rgba(220,38,38,0.5)]"></div>
+    </div>
+  </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {FIRST_MATCHES.map((match, i) => (
+        <MatchCard
+          key={`r1-${i}-${match.p1.name}`}
+          {...match}
+        />
+      ))}
+    </div>
+  </div>
+
+  {/* THE NICE DIVIDER */}
+  <div className="relative flex py-12 items-center justify-center">
+    <div className="absolute inset-0 flex items-center" aria-hidden="true">
+      <div className="w-full border-t border-red-900/40"></div>
+    </div>
+    <div className="relative bg-[#0c0c0c] px-6 flex flex-col items-center">
+      <span className="text-red-600 font-black italic tracking-[0.3em] text-2xl uppercase">
+        Round 2: The Top 16
+      </span>
+      <div className="h-1 w-24 bg-red-600 mt-2 shadow-[0_0_10px_rgba(220,38,38,0.5)]"></div>
+    </div>
+  </div>
+
+  {/* ROUND 2: THE TOP 16 MATCHUPS */}
+  <div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {SECOND_MATCHES.map((match, i) => (
+        <MatchCard
+          key={`r2-${i}-${match.p1.name}`}
+          {...match}
+        />
+      ))}
+    </div>
+  </div>
+  
+</section>
+
+      {/* <BracketEditor /> */}
 
       {/* INFO SECTION */}
       <section className="py-16 md:py-32 bg-[#080808] border-y border-stone-900/80 relative overflow-hidden">
