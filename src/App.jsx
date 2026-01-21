@@ -50,8 +50,9 @@ const FIRST_MATCHES = [
         p1: CONTESTANTS[11],
         p2: CONTESTANTS[12],
         type: "Elimination R1",
-        winner: null,
-    }, // Zeno vs Krrag (Pending)
+        winner: "ZenoZilch",
+        matchLink: "https://www.youtube.com/live/DbKLyeGvkdY?si=b4qApfUAvminFW0d&t=954"
+    }, // Zeno vs Krrag 
     {
         p1: CONTESTANTS[13],
         p2: CONTESTANTS[14],
