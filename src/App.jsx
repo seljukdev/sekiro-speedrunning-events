@@ -90,7 +90,7 @@ const SECOND_MATCHES = [
         p2: CONTESTANTS[17], 
         type: "Winners R2 Result", 
         winner: "albertitotf", 
-        matchLink: "https://www.youtube.com/live/u73CbxgfP6c?si=59dQWT99kFAE3WOi&t=19188"
+        matchLink: "https://www.youtube.com/live/u73CbxgfP6c?si=kksrUbfJMIEH5dhK&t=19294"
     },
     { p1: CONTESTANTS[2], p2: CONTESTANTS[7], type: "Winners R2" }, // Sara vs Ramon 
     { p1: CONTESTANTS[3], p2: CONTESTANTS[14], type: "Winners R2", status: "mommyemma77 vs GamingMusume" },
