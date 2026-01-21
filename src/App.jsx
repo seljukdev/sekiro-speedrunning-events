@@ -418,11 +418,11 @@ export default function App() {
                         Icon={Twitch}
                         label="Twitch"
                     />
-                    <SocialLink
+                    {/* <SocialLink
                         href="https://forms.gle/FwnG3Xt4E3hAat2q8"
                         Icon={Scroll}
                         label="Register"
-                    />
+                    /> */}
                 </div>
             </section>
 
