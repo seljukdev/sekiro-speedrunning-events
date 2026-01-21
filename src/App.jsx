@@ -80,97 +80,35 @@ const FIRST_MATCHES = [
         winner: "papa_pp69",
         matchLink: "https://www.youtube.com/live/J86_IBXVN00?si=CyMsX3EVpMPMUIVe&t=17396",
     }, // Leech vs Papa
-
-    // 11 BYES for the Top Seeds (Automatically Advance)
-    // { p1: CONTESTANTS[0], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[0].name },
-    // { p1: CONTESTANTS[1], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[1].name },
-    // { p1: CONTESTANTS[2], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[2].name },
-    // { p1: CONTESTANTS[3], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[3].name },
-    // { p1: CONTESTANTS[4], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[4].name },
-    // { p1: CONTESTANTS[5], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[5].name },
-    // { p1: CONTESTANTS[6], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[6].name },
-    // { p1: CONTESTANTS[7], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[7].name },
-    // { p1: CONTESTANTS[8], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[8].name },
-    // { p1: CONTESTANTS[9], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[9].name },
-    // { p1: CONTESTANTS[10], p2: { name: "BYE" }, type: "Advance to R2", winner: CONTESTANTS[10].name },
+ 
 ];
 
 const SECOND_MATCHES = [
-    // Top 5 Seeds vs Round 1 Survivors
-    {
-        p1: CONTESTANTS[0],
-        p2: CONTESTANTS[20],
-        type: "Winners R2",
-        status: "WormdogBS vs papa_pp69",
+    { p1: CONTESTANTS[0], p2: CONTESTANTS[20], type: "Winners R2", status: "WormdogBS vs papa_pp69" },
+    { 
+        p1: CONTESTANTS[1], 
+        p2: CONTESTANTS[17], 
+        type: "Winners R2 Result", 
+        winner: "albertitotf", 
+        matchLink: "https://www.youtube.com/live/u73CbxgfP6c?si=59dQWT99kFAE3WOi&t=19188"
     },
-    {
-        p1: CONTESTANTS[1],
-        p2: CONTESTANTS[17],
-        type: "Winners R2",
-        status: "albertitotf vs banjobunny",
-    },
-    {
-        p1: CONTESTANTS[2],
-        p2: CONTESTANTS[15],
-        type: "Winners R2",
-        status: "ramonchi_5 vs Limmitd",
-    },
-    {
-        p1: CONTESTANTS[3],
-        p2: CONTESTANTS[14],
-        type: "Winners R2",
-        status: "mommyemma77 vs GamingMusume",
-    },
-    {
-        p1: CONTESTANTS[4],
-        p2: "Winner of Zeno/Krrag",
-        type: "Winners R2",
-        status: "Holm_GG vs TBD",
-    },
-
-    // Mid-Seed Face-offs (Both had Byes)
-    {
-        p1: CONTESTANTS[5],
-        p2: CONTESTANTS[10],
-        type: "Winners R2",
-        status: "ymir_happy vs zerowww7",
-    },
-    {
-        p1: CONTESTANTS[6],
-        p2: CONTESTANTS[9],
-        type: "Winners R2",
-        status: "Th38atman vs gunjou1213",
-    },
-    {
-        p1: CONTESTANTS[7],
-        p2: CONTESTANTS[8],
-        type: "Winners R2",
-        status: "sara_toga vs Lecentz",
-    },
+    { p1: CONTESTANTS[2], p2: CONTESTANTS[7], type: "Winners R2" }, // Sara vs Ramon 
+    { p1: CONTESTANTS[3], p2: CONTESTANTS[14], type: "Winners R2", status: "mommyemma77 vs GamingMusume" },
+    { p1: CONTESTANTS[4], p2: CONTESTANTS[11], type: "Winners R2", status: "Holm_GG vs ZenoZilch" },
+    { p1: CONTESTANTS[5], p2: CONTESTANTS[10], type: "Winners R2 Result", winner: "ymir_happy", matchLink: "https://www.youtube.com/live/G3nxvPQn6rE?si=bYa_HkpnBidwC5Zy&t=4194" },
+    { p1: CONTESTANTS[9], p2: CONTESTANTS[6], type: "Winners R2 Result", winner: "gunjou1213", matchLink: "https://www.youtube.com/live/G3nxvPQn6rE?si=W6Tub0my2Fvy0-nz&t=361"  }, 
 ];
 
 const LOWER_MATCHES_R2 = [
-    {
+    { 
         p1: CONTESTANTS[13], // pennek
-        p2: CONTESTANTS[18], // gilachi
-        type: "Lower R2: Survival",
-        winner: null,
-        matchLink: null,
+        p2: CONTESTANTS[16], // sugarod1
+        type: "Lower R2: Survival", 
+        winner: "pennek" ,
+        matchLink: "https://www.youtube.com/live/u73CbxgfP6c?si=V_PeStxagsOcuQE_&t=15661"
     },
-    {
-        p1: CONTESTANTS[16], // sugarod1
-        p2: CONTESTANTS[19], // leech1208
-        type: "Lower R2: Survival",
-        winner: null,
-        matchLink: null,
-    },
-    // {
-    //     p1: { name: "TBD", pb: "" }, // Loser of Zeno/Krrag (Match 11v12)
-    //     p2: { name: "BYE", pb: "" },
-    //     type: "Lower R2: Bye",
-    //     winner: "TBD",
-    //     matchLink: null,
-    // },
+    { p1: CONTESTANTS[19], p2: CONTESTANTS[18], type: "Lower R2: Survival" }, // Leech vs Gilachi
+    { p1: CONTESTANTS[12], p2: { name: "BYE" }, type: "Lower R2: Bye", winner: "krrag2" }, 
 ];
 
 const REGULATIONS = [
