@@ -84,7 +84,7 @@ const SECOND_MATCHES = [
 
 const LOWER_MATCHES_R2 = [
     { p1: CONTESTANTS[13], p2: CONTESTANTS[16], type: "Lower R2", winner: "pennek", matchLink: "https://www.youtube.com/live/u73CbxgfP6c?si=V_PeStxagsOcuQE_&t=15661" },
-    { p1: CONTESTANTS[19], p2: CONTESTANTS[18], type: "Lower R2", status: "Leech vs Gilachi", matchLink: "https://www.youtube.com/live/QF-3po6u_8I?si=5jbY9LaxYUlO4yzi&t=715" },
+    { p1: CONTESTANTS[19], p2: CONTESTANTS[18], type: "Lower R2", winner: CONTESTANTS[19].name, matchLink: "https://www.youtube.com/live/QF-3po6u_8I?si=5jbY9LaxYUlO4yzi&t=715" },
     { p1: CONTESTANTS[12], p2: { name: "BYE" }, type: "Lower R2: Bye", winner: "krrag2" },
 ];
 
@@ -163,7 +163,7 @@ const MatchCard = memo(({ p1, p2, type, winner = null, matchLink = null, isLive 
         <motion.div variants={FADE_IN_VARIANTS} whileHover={{ scale: 1.01, borderColor: "rgba(220,38,38,0.4)" }} className={`relative bg-[#080808] border border-stone-800/60 p-4 transition-all duration-300 shadow-2xl overflow-hidden ${isLive ? "border-red-600 ring-1 ring-red-600/20 shadow-red-900/10" : ""}`}>
             <div className="flex justify-between items-center mb-4 border-b border-stone-800/40 pb-2">
                 <span className={`text-[10px] font-['Cinzel'] font-bold uppercase tracking-[0.3em] ${isBye ? "text-yellow-600" : "text-stone-500"}`}>{type}</span>
-                {status && !isLive && <span className="text-[9px] text-stone-600 font-bold uppercase italic">{status}</span>}
+                {/* {status && !isLive && <span className="text-[9px] text-stone-600 font-bold uppercase italic">{status}</span>} */}
                 {isLive && (
                     <span className="flex items-center gap-1.5 px-2 py-0.5 bg-red-600 text-[9px] font-black text-white uppercase tracking-tighter animate-pulse rounded-sm">
                         <span className="w-1.5 h-1.5 bg-white rounded-full" /> Live Now
