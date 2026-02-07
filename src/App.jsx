@@ -189,6 +189,7 @@ const LOWER_MATCHES_R2 = [
         winner: "krrag2",
     },
 ];
+
 // --- UPDATED ROUND 3 (WITH WINNERS & VODS) ---
 const UPPER_MATCHES_R3 = [
     {
@@ -197,7 +198,8 @@ const UPPER_MATCHES_R3 = [
         type: "Winners R3: QF",
         winner: "WormdogBS",
         status: "Finished",
-        matchLink: "https://www.youtube.com/live/8DkFSJxJoAI?si=w2MvgHZx-35GxXt8&t=844"
+        matchLink:
+            "https://www.youtube.com/live/8DkFSJxJoAI?si=w2MvgHZx-35GxXt8&t=844",
     },
     {
         p1: CONTESTANTS[1],
@@ -205,20 +207,21 @@ const UPPER_MATCHES_R3 = [
         type: "Winners R3: QF",
         winner: "ramonchi_5",
         status: "Finished",
-        matchLink: "https://www.youtube.com/live/fnZjgdEkTJE?si=HriZvcBGsTHE1j_l&t=3225"
+        matchLink:
+            "https://www.youtube.com/live/fnZjgdEkTJE?si=HriZvcBGsTHE1j_l&t=3225",
     },
     {
         p1: CONTESTANTS[9],
         p2: CONTESTANTS[5],
         type: "Winners R3: QF",
         status: "Gunjou vs Ymir",
-        isLive: true
+        winner: "ymir_happy",
     },
     {
         p1: CONTESTANTS[4],
         p2: { name: "BYE" },
         type: "Winners R3: Bye",
-        winner: "Holm_GG"
+        winner: "Holm_GG",
     },
 ];
 
@@ -227,8 +230,8 @@ const LOWER_MATCHES_R3 = [
         p1: CONTESTANTS[13],
         p2: CONTESTANTS[10],
         type: "Lower R3",
-        status: "Pennek vs Zerowww7",
-        isLive: true
+        winner: "zerowww7",
+        matchLink: "https://www.youtube.com/live/_1kDpPfjT0Y?si=5m8RnC__MPyhq3_3&t=414", // Placeholder from your snippet
     },
     {
         p1: CONTESTANTS[12],
@@ -236,23 +239,24 @@ const LOWER_MATCHES_R3 = [
         type: "Lower R3",
         winner: "krrag2",
         status: "Finished",
-        matchLink: "https://www.youtube.com/live/uEpEOf5gaZI?si=qc_d1fm56jPCAen7&t=209"
+        matchLink:
+            "https://www.youtube.com/live/uEpEOf5gaZI?si=qc_d1fm56jPCAen7&t=209",
     },
     {
         p1: CONTESTANTS[7],
         p2: CONTESTANTS[19],
         type: "Lower R3",
         winner: "sara_toga",
-        status: "Win by forfeit", 
+        status: "Win by forfeit",
     },
     {
         p1: CONTESTANTS[11],
         p2: CONTESTANTS[20],
         type: "Lower R3",
         winner: "ZenoZilch",
-        status: "Win by forfeit", 
+        status: "Win by forfeit",
     },
-]; 
+];
 
 // --- ROUND 4: SEMIS & LOWER SURVIVAL ---
 
@@ -261,13 +265,15 @@ const UPPER_MATCHES_R4 = [
         p1: CONTESTANTS[4],
         p2: CONTESTANTS[2],
         type: "Winners Semi 1",
-        status: "Holm_GG vs ramonchi_5",
+        winner: "ramonchi_5",
+        matchLink: "https://www.twitch.tv/videos/2691331822" 
     },
     {
         p1: CONTESTANTS[0],
-        p2: { name: "TBD (Winner G/Y)" },
+        p2: CONTESTANTS[5], // Ymir
         type: "Winners Semi 2",
-        status: "Wormdog vs TBD",
+        winner: "WormdogBS",
+        matchLink: "https://twitch.tv/videos/example3", // Placeholder from snippet
     },
 ];
 
@@ -276,28 +282,80 @@ const LOWER_MATCHES_R4 = [
         p1: CONTESTANTS[1],
         p2: CONTESTANTS[12],
         type: "Lower R4",
-        status: "albertitotf vs krrag2",
+        winner: "albertitotf",
+        status: "Finished",
+        matchLink: "https://www.youtube.com/live/BCMmhR_J5UM?si=hHWShpyOj_aZGLm9&t=19133"
     },
     {
         p1: CONTESTANTS[3],
         p2: CONTESTANTS[7],
         type: "Lower R4",
-        status: "mommyemma77 vs sara_toga",
+        winner: "sara_toga",
+        status: "Finished",
+        matchLink: "https://www.youtube.com/live/XBqSoyR8CO0?si=i9n9tJK763MpOH5B&t=851"
     },
     {
         p1: CONTESTANTS[11],
-        p2: { name: "TBD (Loser G/Y)" },
+        p2: { name: "gunjou1213" }, // Loser of G/Y (Assuming Gunjou lost based on context)
         type: "Lower R4",
-        status: "ZenoZilch vs TBD",
+        winner: "ZenoZilch",
+        status: "Finished",
+        matchLink: "https://www.youtube.com/live/BCMmhR_J5UM?si=2vbE0URbP5pm2Pf7&t=22805"
     },
     {
-        p1: { name: "Winner (Zero/Pennek)" },
+        p1: CONTESTANTS[10], // zerowww7
         p2: { name: "BYE" },
         type: "Lower R4 Bye",
-        winner: "TBD",
+        winner: "zerowww7",
         status: "Auto-Advance to L5",
     },
 ];
+
+// --- ROUND 5: LOWER BRACKET (RECENT UPSETS) ---
+const LOWER_MATCHES_R5 = [
+    {
+        p1: CONTESTANTS[11], // ZenoZilch
+        p2: CONTESTANTS[10], // zerowww7
+        type: "Lower R5",
+        winner: "zerowww7",
+        status: "UPSET",
+        matchLink: "https://www.youtube.com/live/zjaAC-Huu00?si=e-whTl0lmyqPUIvz&t=3029",
+    },
+    {
+        p1: CONTESTANTS[1], // albertitotf
+        p2: CONTESTANTS[7], // sara_toga
+        type: "Lower R5",
+        winner: "sara_toga",
+        status: "UPSET",
+        matchLink: "https://www.twitch.tv/videos/2691329136",
+    },
+];
+
+// --- NEXT: ROUND 6 (GATEKEEPERS) ---
+const LOWER_MATCHES_R6 = [
+    {
+        p1: CONTESTANTS[4], // Holm_GG (Loser of Upper Semi 1)
+        p2: CONTESTANTS[7], // sara_toga (Winner of Lower R5 Match B)
+        type: "Lower R6",
+        status: "LIVE SOON",
+        description: "Gatekeeper Match",
+    },
+    {
+        p1: CONTESTANTS[5], // ymir_Happy (Loser of Upper Semi 2)
+        p2: CONTESTANTS[10], // zerowww7 (Winner of Lower R5 Match A)
+        type: "Lower R6",
+        status: "LIVE SOON",
+        description: "Gatekeeper Match",
+    },
+];
+
+// --- UPPER FINAL ---
+const UPPER_FINAL = {
+    p1: CONTESTANTS[2], // ramonchi_5
+    p2: CONTESTANTS[0], // WormdogBS
+    type: "Upper Final",
+    status: "Winner to Grand Final",
+};
 
 // --- COMPONENTS ---
 
@@ -590,42 +648,77 @@ export default function App() {
                 id="brackets"
                 className="py-24 px-4 max-w-7xl mx-auto space-y-32"
             >
-                {/* 2. UPPER BRACKET SEMI-FINALS */}
+                {/* 1. SEMI FINALS */}
                 <section>
                     <SectionTitle
-                        title="The High Ground"
-                        subtitle="Winners Semi-Finals"
-                        colorClass="text-white"
+                        title="The Summit"
+                        subtitle="Semi Finals"
+                        colorClass="text-yellow-500"
                     />
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto px-4">
-                        {UPPER_MATCHES_R4.map((match, i) => (
-                            <MatchCard key={`u4-${i}`} {...match} />
-                        ))}
+                    <div className="flex justify-center max-w-5xl mx-auto px-4">
+                        <div className="w-full md:w-1/2">
+                            <MatchCard {...UPPER_FINAL} isLive={true} />
+                        </div>
                     </div>
                 </section>
 
-                {/* 3. LOWER BRACKET SURVIVAL */}
+                {/* 2. LOWER ROUND 6 (THE GATEKEEPERS) */}
                 <section className="bg-stone-950/40 py-16">
                     <SectionTitle
-                        title="The Survival Pit"
-                        subtitle="Lower Bracket Round 4"
+                        title="The Gatekeepers"
+                        subtitle="Lower Bracket Round 6"
                         colorClass="text-orange-600"
                     />
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto px-4">
-                        {LOWER_MATCHES_R4.map((match, i) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto px-4">
+                        {LOWER_MATCHES_R6.map((match, i) => (
                             <MatchCard
-                                key={`l4-${i}`}
+                                key={`l6-${i}`}
                                 {...match}
-                                // Add a special highlight for the BYE match
-                                status={
-                                    match.p2.name === "BYE"
-                                        ? "BYE AWARDED"
-                                        : match.status
-                                }
+                                isLive={true}
                             />
                         ))}
                     </div>
                 </section>
+
+                {/* 3. LOWER ROUND 5 (UPSETS) */}
+                <section>
+                    <SectionTitle
+                        title="The Uprising"
+                        subtitle="Lower Bracket Round 5 Results"
+                        colorClass="text-red-400"
+                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto px-4">
+                        {LOWER_MATCHES_R5.map((match, i) => (
+                            <MatchCard key={`l5-${i}`} {...match} />
+                        ))}
+                    </div>
+                </section>
+
+                {/* ROUND 4: UPPER */}
+                <div>
+                    <SectionTitle
+                        title="The High Ground"
+                        subtitle="Winners Semi-Finals (Round 4)"
+                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {UPPER_MATCHES_R4.map((match, i) => (
+                            <MatchCard key={`r4u-${i}`} {...match} />
+                        ))}
+                    </div>
+                </div>
+
+                {/* ROUND 4: LOWER */}
+                <div>
+                    <SectionTitle
+                        title="The Struggle"
+                        subtitle="Lower Bracket Round 4"
+                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {LOWER_MATCHES_R4.map((match, i) => (
+                            <MatchCard key={`r4l-${i}`} {...match} />
+                        ))}
+                    </div>
+                </div>
 
                 {/* ROUND 3: UPPER */}
                 <div>
