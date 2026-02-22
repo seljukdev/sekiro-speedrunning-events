@@ -274,6 +274,7 @@ const UPPER_MATCHES_R4 = [
         type: "Winners Semi 2",
         winner: "WormdogBS",
         status: "Finished",
+        matchLink: "https://www.youtube.com/live/lH9o_b-17Uw?si=Ch3B2gJOAP1En1f6&t=12787"
     },
 ];
 
