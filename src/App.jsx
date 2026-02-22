@@ -214,7 +214,7 @@ const UPPER_MATCHES_R3 = [
         p1: CONTESTANTS[9],
         p2: CONTESTANTS[5],
         type: "Winners R3: QF",
-        status: "Gunjou vs Ymir",
+        status: "Finished",
         winner: "ymir_happy",
     },
     {
@@ -231,7 +231,7 @@ const LOWER_MATCHES_R3 = [
         p2: CONTESTANTS[10],
         type: "Lower R3",
         winner: "zerowww7",
-        matchLink: "https://www.youtube.com/live/_1kDpPfjT0Y?si=5m8RnC__MPyhq3_3&t=414", // Placeholder from your snippet
+        matchLink: "https://www.youtube.com/live/_1kDpPfjT0Y?si=5m8RnC__MPyhq3_3&t=414",
     },
     {
         p1: CONTESTANTS[12],
@@ -259,13 +259,13 @@ const LOWER_MATCHES_R3 = [
 ];
 
 // --- ROUND 4: SEMIS & LOWER SURVIVAL ---
-
 const UPPER_MATCHES_R4 = [
     {
         p1: CONTESTANTS[4],
         p2: CONTESTANTS[2],
         type: "Winners Semi 1",
         winner: "ramonchi_5",
+        status: "Finished",
         matchLink: "https://www.twitch.tv/videos/2691331822" 
     },
     {
@@ -273,7 +273,7 @@ const UPPER_MATCHES_R4 = [
         p2: CONTESTANTS[5], // Ymir
         type: "Winners Semi 2",
         winner: "WormdogBS",
-        matchLink: "https://twitch.tv/videos/example3", // Placeholder from snippet
+        status: "Finished",
     },
 ];
 
@@ -296,7 +296,7 @@ const LOWER_MATCHES_R4 = [
     },
     {
         p1: CONTESTANTS[11],
-        p2: { name: "gunjou1213" }, // Loser of G/Y (Assuming Gunjou lost based on context)
+        p2: { name: "gunjou1213" },
         type: "Lower R4",
         winner: "ZenoZilch",
         status: "Finished",
@@ -311,14 +311,14 @@ const LOWER_MATCHES_R4 = [
     },
 ];
 
-// --- ROUND 5: LOWER BRACKET (RECENT UPSETS) ---
+// --- ROUND 5: LOWER BRACKET (UPSETS) ---
 const LOWER_MATCHES_R5 = [
     {
         p1: CONTESTANTS[11], // ZenoZilch
         p2: CONTESTANTS[10], // zerowww7
         type: "Lower R5",
         winner: "zerowww7",
-        status: "UPSET",
+        status: "Finished",
         matchLink: "https://www.youtube.com/live/zjaAC-Huu00?si=e-whTl0lmyqPUIvz&t=3029",
     },
     {
@@ -326,36 +326,72 @@ const LOWER_MATCHES_R5 = [
         p2: CONTESTANTS[7], // sara_toga
         type: "Lower R5",
         winner: "sara_toga",
-        status: "UPSET",
+        status: "Finished",
         matchLink: "https://www.twitch.tv/videos/2691329136",
     },
 ];
 
-// --- NEXT: ROUND 6 (GATEKEEPERS) ---
+// --- ROUND 6: LOWER BRACKET (GATEKEEPERS) ---
 const LOWER_MATCHES_R6 = [
     {
-        p1: CONTESTANTS[4], // Holm_GG (Loser of Upper Semi 1)
-        p2: CONTESTANTS[7], // sara_toga (Winner of Lower R5 Match B)
+        p1: CONTESTANTS[4], // Holm_GG
+        p2: CONTESTANTS[7], // sara_toga
         type: "Lower R6",
-        status: "LIVE SOON",
-        description: "Gatekeeper Match",
+        winner: "Holm_GG",
+        status: "Finished",
+        matchLink: "https://www.youtube.com/live/IYm7XFSw0Bk?si=abowFXV3_V1gy3wA&t=19740"
     },
     {
-        p1: CONTESTANTS[5], // ymir_Happy (Loser of Upper Semi 2)
-        p2: CONTESTANTS[10], // zerowww7 (Winner of Lower R5 Match A)
+        p1: CONTESTANTS[5], // ymir_Happy
+        p2: CONTESTANTS[10], // zerowww7
         type: "Lower R6",
-        status: "LIVE SOON",
-        description: "Gatekeeper Match",
+        winner: "ymir_happy",
+        status: "Finished",
+        matchLink: "https://www.youtube.com/live/eP6F8ZKSXag?si=Rxo6nFzERQ0Sp3ry&t=668"
     },
 ];
+
+// --- ROUND 7: LOWER BRACKET QUARTERFINALS ---
+const LOWER_MATCHES_R7 =  
+    {
+        p1: CONTESTANTS[4], // Holm_GG
+        p2: CONTESTANTS[5], // ymir_Happy
+        type: "Lower R7 (Quarterfinal)",
+        winner: "Holm_GG",
+        status: "Finished",
+        matchLink: "https://www.youtube.com/live/xSCs6CnYdKo?si=6fGU8Rudz6MjA5Xa&t=17557"
+    } 
 
 // --- UPPER FINAL ---
 const UPPER_FINAL = {
     p1: CONTESTANTS[2], // ramonchi_5
     p2: CONTESTANTS[0], // WormdogBS
-    type: "Upper Final",
-    status: "Winner to Grand Final",
+    type: "Upper Bracket - Semi Finals",
+    winner: "WormdogBS",
+    status: "Finished",
+    matchLink: "https://www.youtube.com/live/IYm7XFSw0Bk?si=lv41Ft1LbE3EVkyJ&t=23407"
 };
+
+// --- LOWER FINAL ---
+const LOWER_FINAL = {
+    p1: CONTESTANTS[4], // Holm_GG
+    p2: CONTESTANTS[2], // ramonchi_5
+    type: "Lower Bracket - Semi Finals",
+    winner: "Holm_GG",
+    status: "Finished",
+    matchLink: "https://www.youtube.com/live/oQwH-PxOw2A?si=QjEahlpOm3fAgnsF&t=1137"
+};
+
+// --- GRAND FINAL ---
+const GRAND_FINAL = {
+    p1: CONTESTANTS[0], // WormdogBS
+    p2: CONTESTANTS[4], // Holm_GG
+    type: "Grand Final",
+    winner: "WormdogBS",
+    status: "TOURNAMENT CHAMPION",
+    matchLink: "https://www.youtube.com/live/cT5Ee5ZWesk?si=HrAwo-WLXBcYujTw&t=1485"
+};
+
 
 // --- COMPONENTS ---
 
@@ -642,22 +678,59 @@ export default function App() {
                     /> */}
                 </div>
             </section>
-
-            {/* BRACKETS */}
+{/* BRACKETS */}
             <section
                 id="brackets"
                 className="py-24 px-4 max-w-7xl mx-auto space-y-32"
             >
-                {/* 1. SEMI FINALS */}
+                {/* GRAND FINALS */}
                 <section>
                     <SectionTitle
-                        title="The Summit"
+                        title="The Ultimate Reckoning"
+                        subtitle="Grand Finals"
+                        colorClass="text-yellow-500"
+                    />
+                    <div className="flex justify-center max-w-5xl mx-auto px-4">
+                        <div className="w-full md:w-1/2">
+                            <MatchCard {...GRAND_FINAL}   />
+                        </div>
+                    </div>
+                </section>
+                 
+                <section>
+                    <SectionTitle
+                        title="The Final Stand"
+                        subtitle="Semi Finals (LB)"
+                        colorClass="text-yellow-500"
+                    />
+                    <div className="flex justify-center max-w-5xl mx-auto px-4">
+                        <div className="w-full md:w-1/2">
+                            <MatchCard {...LOWER_FINAL}   />
+                        </div>
+                    </div>
+                </section>
+                 
+                <section>
+                    <SectionTitle
+                        title="The Apex"
                         subtitle="Semi Finals"
                         colorClass="text-yellow-500"
                     />
                     <div className="flex justify-center max-w-5xl mx-auto px-4">
                         <div className="w-full md:w-1/2">
-                            <MatchCard {...UPPER_FINAL} isLive={true} />
+                            <MatchCard {...UPPER_FINAL}   />
+                        </div>
+                    </div>
+                </section> 
+                <section>
+                    <SectionTitle
+                        title="The Crucible"
+                        subtitle="Lower Bracket Round 7"
+                        colorClass="text-yellow-500"
+                    />
+                    <div className="flex justify-center max-w-5xl mx-auto px-4">
+                        <div className="w-full md:w-1/2">
+                            <MatchCard {...LOWER_MATCHES_R7}   />
                         </div>
                     </div>
                 </section>
@@ -674,7 +747,7 @@ export default function App() {
                             <MatchCard
                                 key={`l6-${i}`}
                                 {...match}
-                                isLive={true}
+                                 
                             />
                         ))}
                     </div>
@@ -697,7 +770,7 @@ export default function App() {
                 {/* ROUND 4: UPPER */}
                 <div>
                     <SectionTitle
-                        title="The High Ground"
+                        title="The Ascendant Clash"
                         subtitle="Winners Semi-Finals (Round 4)"
                     />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -710,7 +783,7 @@ export default function App() {
                 {/* ROUND 4: LOWER */}
                 <div>
                     <SectionTitle
-                        title="The Struggle"
+                        title="The Gauntlet"
                         subtitle="Lower Bracket Round 4"
                     />
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -723,7 +796,7 @@ export default function App() {
                 {/* ROUND 3: UPPER */}
                 <div>
                     <SectionTitle
-                        title="The Conflict"
+                        title="The Proving Grounds"
                         subtitle="Winners Round 3: Quarter-Finals"
                     />
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -736,7 +809,7 @@ export default function App() {
                 {/* ROUND 3: LOWER */}
                 <div>
                     <SectionTitle
-                        title="The Abyss"
+                        title="Into the Abyss"
                         subtitle="Lower Bracket Round 3: Survival"
                         colorClass="text-orange-100"
                     />
@@ -750,7 +823,7 @@ export default function App() {
                 {/* HISTORICAL ROUNDS (R2) */}
                 <div className=" border-t border-stone-900/50">
                     <h4 className="text-center font-['Cinzel'] text-stone-600 tracking-[0.5em] uppercase text-sm mb-12">
-                        Historical Record: Round 2
+                        Archives of Conflict: Round 2
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 opacity-60 hover:opacity-100 transition-opacity">
                         {SECOND_MATCHES.map((match, i) => (
@@ -761,7 +834,7 @@ export default function App() {
                 {/* HISTORICAL LOWER ROUNDS (R2) */}
                 <div className=" border-t border-stone-900/50">
                     <h4 className="text-center font-['Cinzel'] text-stone-600 tracking-[0.5em] uppercase text-sm mb-12">
-                        Historical Record: Round 2 Lower
+                        Archives of Survival: Round 2 Lower
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 opacity-60 hover:opacity-100 transition-opacity">
                         {LOWER_MATCHES_R2.map((match, i) => (
@@ -772,7 +845,7 @@ export default function App() {
                 {/* HISTORICAL ROUNDS (R1) */}
                 <div className=" border-t border-stone-900/50">
                     <h4 className="text-center font-['Cinzel'] text-stone-600 tracking-[0.5em] uppercase text-sm mb-12">
-                        Historical Record: Round 1
+                        The Genesis: Round 1
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 opacity-60 hover:opacity-100 transition-opacity">
                         {FIRST_MATCHES.map((match, i) => (
@@ -781,7 +854,6 @@ export default function App() {
                     </div>
                 </div>
             </section>
-
             {/* <BracketEditor /> */}
 
             {/* INFO SECTION */}
